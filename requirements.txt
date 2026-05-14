@@ -1,0 +1,18 @@
+# ── ENTRENAMIENTO (training/) ──────────────────────────────────────────────
+# Instala primero CUDA Toolkit 12.x + cuDNN desde NVIDIA antes de esto.
+# Luego:  pip install -r requirements_training.txt
+
+tensorflow[and-cuda]==2.17.*   # incluye soporte GPU en Windows vía pip
+numpy>=1.26,<2.0
+pillow>=10.0
+
+# ── BACKEND (backend/) ─────────────────────────────────────────────────────
+# pip install -r requirements_backend.txt
+
+fastapi==0.111.*
+uvicorn[standard]==0.30.*
+python-multipart==0.0.9        # necesario para UploadFile en FastAPI
+tensorflow[and-cuda]==2.17.*   # mismo entorno o uno separado
+numpy>=1.26,<2.0
+pandas>=2.1
+pillow>=10.0

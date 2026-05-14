@@ -1,0 +1,16 @@
+# Entornos virtuales
+**/venv_train/
+**/venv_back_clase/
+**/node_modules/
+
+# Python
+**/__pycache__/
+*.pyc
+
+# Dataset y logs (demasiado pesados)
+images/
+logs/
+
+# Modelo entrenado (lo subiremos aparte a Render)
+training/mushroom_model.pth
+training/classes.json
