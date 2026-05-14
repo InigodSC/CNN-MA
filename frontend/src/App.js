@@ -5,7 +5,7 @@
 import { useState, useRef, useCallback } from "react";
 import Webcam from "react-webcam";
 
-const API_URL = "http://localhost:8000/predict";
+const API_URL = "https://cnn-ma-backend.onrender.com/predict";
 
 // ── Paleta & constantes ────────────────────────────────────────────────────
 const EDIBLE_STYLES = {
