@@ -125,9 +125,7 @@ const EDIBLE_STYLES = {
 function ParchmentPanel({ children, className = "" }) {
   return (
     <div className={`relative ${className}`} style={{
-      backgroundImage: `url('/lineas.png'), linear-gradient(135deg, #F0DFB8 0%, #E8CFA0 45%, #EDD9A8 70%, #E2C898 100%)`,
-      backgroundSize: "cover, cover",
-      backgroundBlendMode: "multiply, normal",
+      background: `linear-gradient(135deg, #F0DFB8 0%, #E8CFA0 45%, #EDD9A8 70%, #E2C898 100%)`,
       border: `2px solid ${P.inkMid}`,
       boxShadow: `inset 0 0 40px rgba(28,18,8,0.10), 3px 3px 0 ${P.inkMid}`,
       position: "relative",
@@ -397,19 +395,10 @@ export default function App() {
       fontFamily: "Georgia, serif",
       position: "relative",
     }}>
-      {/* Overlay oscuro suave sobre el fondo */}
+      {/* Overlay oscuro muy suave sobre el fondo */}
       <div style={{
         position: "fixed", inset: 0, pointerEvents: "none",
-        background: "rgba(28, 18, 8, 0.28)",
-        zIndex: 0,
-      }}/>
-
-      {/* Overlay de lineas.png encima del fondo */}
-      <div style={{
-        position: "fixed", inset: 0, pointerEvents: "none",
-        backgroundImage: `url('/lineas.png')`,
-        backgroundSize: "cover",
-        opacity: 0.18,
+        background: "rgba(28, 18, 8, 0.14)",
         zIndex: 0,
       }}/>
 
@@ -428,13 +417,6 @@ export default function App() {
         zIndex: 10,
         overflow: "hidden",
       }}>
-        {/* Textura de lineas en el header */}
-        <div style={{
-          position: "absolute", inset: 0, pointerEvents: "none",
-          backgroundImage: `url('/lineas.png')`,
-          backgroundSize: "cover",
-          opacity: 0.08,
-        }}/>
         {/* Líneas doradas decorativas */}
         <div style={{ position: "absolute", bottom: 7, left: 0, right: 0, height: 1, background: P.gold, opacity: 0.35 }}/>
         <div style={{ position: "absolute", bottom: 4, left: 0, right: 0, height: 1, background: P.goldLight, opacity: 0.18 }}/>
