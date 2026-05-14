@@ -33,7 +33,7 @@ MODEL_PATH  = BASE_DIR / "mushroom_model.pth"
 CLASSES_PATH= BASE_DIR / "classes.json"
 CSV_PATH    = BASE_DIR / "mushroom_info.csv"
 
-CONFIDENCE_THRESHOLD = 0.40
+CONFIDENCE_THRESHOLD = 0.10   # por debajo → "No identificado"
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("mushroom-api")
@@ -119,6 +119,7 @@ inference_transform = transforms.Compose([
 logger.info("Cargando CSV de información...")
 df_info = pd.read_csv(CSV_PATH, sep=",", encoding="utf-8")
 df_info["_nombre_norm"] = df_info["Nombre"].str.strip().str.lower()
+df_info.columns = df_info.columns.str.strip()
 logger.info(f"✅ CSV cargado ({len(df_info)} filas)")
 
 # ──────────────────────────────────────────────
@@ -132,7 +133,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -157,8 +158,8 @@ def lookup_csv(species_name: str) -> dict:
         }
     row = row.iloc[0]
     return {
-        "comestible":      str(row.get("comestible/no comestible", "desconocido")).strip().lower(),
-        "caracteristicas": str(row.get("caracteristicas", "Sin descripción disponible.")).strip(),
+        "comestible":      str(row.get("Comestibilidad", "desconocido")).strip().lower(),
+        "caracteristicas": str(row.get("Caracteristicas", "Sin descripción disponible.")).strip(),
     }
 
 # ──────────────────────────────────────────────
@@ -187,7 +188,7 @@ async def predict(file: UploadFile = File(...)):
         raise HTTPException(status_code=422, detail=f"No se pudo procesar la imagen: {exc}")
 
     with torch.no_grad():
-        with torch.amp.autocast("cuda", enabled=(device.type == "cuda")):
+        with torch.cuda.amp.autocast(enabled=(device.type == "cuda")):
             logits      = model(tensor)
             probs       = torch.softmax(logits, dim=1)[0]
             top_conf, top_idx = probs.max(0)
